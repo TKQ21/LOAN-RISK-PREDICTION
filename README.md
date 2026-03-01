@@ -1,73 +1,131 @@
-# Welcome to your Lovable project
+📊 Loan Risk Prediction Web Application
 
-## Project info
+A production-style Loan Risk Prediction Web Application designed using real-world banking and underwriting logic.
+This system evaluates loan applicants and classifies them as LOW RISK or HIGH RISK using a combination of rule-based decisioning and ML-assisted risk evaluation.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+project: https://loan-risk-prediction.lovable.app
 
-## How can I edit this code?
+🚀 Project Overview
 
-There are several ways of editing your application.
+Financial institutions face significant losses due to loan defaults. This application helps banks and NBFCs assess credit risk before loan approval, reducing default probability and improving decision quality.
 
-**Use Lovable**
+The system analyzes key applicant attributes such as income, credit score, debt burden, employment type, and past default history to generate:
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Safe Probability
 
-Changes made via Lovable will be committed automatically to this repo.
+Default Risk Probability
 
-**Use your preferred IDE**
+Risk Classification
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Decision Recommendation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+🧠 Key Features
 
-Follow these steps:
+📌 Real-world banking logic aligned with underwriting standards
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+📌 Clear separation of Safe Probability and Default Risk Probability
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+📌 Strong emphasis on Past Default History (highest risk weight)
 
-# Step 3: Install the necessary dependencies.
-npm i
+📌 Debt-to-Income and Loan-to-Income risk evaluation
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+📌 Professional decision recommendations (Approve / Reject / Collateral)
 
-**Edit a file directly in GitHub**
+📌 Clean, interview-ready UI and explanations
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+🏗️ Tech Stack
+Frontend
 
-**Use GitHub Codespaces**
+React.js
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Tailwind / CSS
 
-## What technologies are used for this project?
+Responsive UI
 
-This project is built with:
+Backend
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Python (Flask / FastAPI)
 
-## How can I deploy this project?
+REST APIs
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+JSON-based request handling
 
-## Can I connect a custom domain to my Lovable project?
+Machine Learning / Logic
 
-Yes, you can!
+Rule-based risk evaluation
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+ML-assisted probability scoring
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Credit score classification aligned with Indian banking standards
+
+🧮 Risk Evaluation Parameters
+Parameter	Description
+Age	Applicant’s earning stage
+Monthly Income	Repayment capacity
+Employment Type	Income stability
+Credit Score	Creditworthiness
+Existing EMIs	Debt burden
+Loan Amount	Exposure risk
+Loan Purpose	Secured / unsecured risk
+Past Default History	Strongest default predictor
+📈 Credit Score Classification (India)
+
+750+ → Excellent
+
+700–749 → Good
+
+650–699 → Average
+
+550–649 → Poor
+
+<550 → Very Poor
+
+🔍 Sample Prediction Output (High Risk)
+
+Safe Probability: 4%
+
+Default Risk Probability: 96%
+
+Risk Status: 🔴 High Risk
+
+Decision Recommendation: Reject application or require collateral / guarantor
+
+🧠 Business Logic Highlights
+
+Applicants with past defaults are heavily penalized
+
+DTI > 40% significantly increases risk
+
+Loan-to-Annual-Income > 1.0x exceeds safe lending thresholds
+
+Poor credit score (<650) places borrower in sub-prime category
+
+⚖️ Disclaimer
+
+This prediction is generated using ML-assisted risk analysis and should be used as a decision-support tool, not a final approval system. Financial institutions should conduct independent due diligence before making lending decisions.
+
+📦 How to Run Locally (Optional)
+# Backend
+pip install -r requirements.txt
+python app.py
+
+# Frontend
+npm install
+npm start
+🎯 Use Cases
+
+Banks & NBFCs
+
+Loan officers & underwriters
+
+FinTech credit assessment tools
+
+Academic & ML demonstration projects
+
+👤 Author
+
+Mohd Kaif
+
+Aspiring Full-Stack Developer & Data Enthusiast
+
+Built using modern AI-assisted development tools.
