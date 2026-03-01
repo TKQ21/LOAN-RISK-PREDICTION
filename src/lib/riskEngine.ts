@@ -112,31 +112,30 @@ export function predictRisk(applicant: LoanApplicant): PredictionResult {
     weight: empWeight,
   });
 
-  // 5. Age Factor (5%)
-  const ageWeight = applicant.age >= 25 && applicant.age <= 55 ? 0.3 : -0.3;
+  // 5. Age Factor (5%) — kept as neutral/mild supportive only
+  const ageInRange = applicant.age >= 25 && applicant.age <= 55;
+  const ageWeight = ageInRange ? 0.2 : -0.3;
   score += ageWeight;
   factors.push({
     factor: "Age Profile",
-    impact: applicant.age >= 25 && applicant.age <= 55 ? "positive" : "neutral",
-    description: applicant.age >= 25 && applicant.age <= 55
-      ? `Age ${applicant.age} falls within prime earning years (25–55), indicating stable income potential.`
-      : `Age ${applicant.age} is outside the typical prime earning bracket (25–55), which may affect long-term repayment.`,
+    impact: ageInRange ? "neutral" : "neutral",
+    description: ageInRange
+      ? `Age ${applicant.age} falls within the 25–55 working bracket. Income stability is adequate but assessed independently.`
+      : `Age ${applicant.age} is outside the typical prime earning bracket (25–55); income stability is not yet well established at the current level.`,
     weight: ageWeight,
   });
 
-  // 6. Loan-to-Annual-Income Ratio (5%) — CORRECTED
+  // 6. Loan-to-Annual-Income Ratio (5%) — any ratio >1.0 is HIGH RISK
   const annualIncome = applicant.monthlyIncome * 12;
   const ltiRatio = applicant.loanAmount / annualIncome;
-  const ltiWeight = ltiRatio <= 1.0 ? 0.4 : ltiRatio <= 3 ? 0 : ltiRatio <= 5 ? -0.3 : -0.6;
+  const ltiWeight = ltiRatio <= 1.0 ? 0.4 : ltiRatio <= 2 ? -0.3 : ltiRatio <= 4 ? -0.5 : -0.8;
   score += ltiWeight;
   factors.push({
     factor: "Loan-to-Annual Income",
-    impact: ltiRatio <= 1.0 ? "positive" : ltiRatio <= 3 ? "neutral" : "negative",
+    impact: ltiRatio <= 1.0 ? "positive" : "negative",
     description: ltiRatio <= 1.0
-      ? `Loan amount is ${ltiRatio.toFixed(1)}x annual income (₹${annualIncome.toLocaleString()}). Well within safe lending limits.`
-      : ltiRatio <= 3
-        ? `Loan amount is ${ltiRatio.toFixed(1)}x annual income (₹${annualIncome.toLocaleString()}). Approaching upper threshold — requires careful assessment.`
-        : `Loan amount is ${ltiRatio.toFixed(1)}x annual income (₹${annualIncome.toLocaleString()}). Exceeds safe lending ratio (>1.0x is high risk). Loan repayment capacity is severely constrained.`,
+      ? `Loan amount is ${ltiRatio.toFixed(1)}x annual income (₹${annualIncome.toLocaleString()}). Within safe lending limits.`
+      : `Loan amount is ${ltiRatio.toFixed(1)}x annual income (₹${annualIncome.toLocaleString()}), which exceeds safe lending thresholds (>1.0x) and significantly increases default risk.`,
     weight: ltiWeight,
   });
 
