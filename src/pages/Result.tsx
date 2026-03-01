@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { Shield, ArrowLeft, ArrowRight, CheckCircle2, XCircle, MinusCircle, FileText } from "lucide-react";
+import { Shield, ArrowLeft, ArrowRight, CheckCircle2, XCircle, MinusCircle, FileText, AlertTriangle, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { getPredictions, type StoredPrediction } from "@/lib/riskEngine";
 
 const impactIcon = {
@@ -35,6 +36,8 @@ const Result = () => {
 
   const { applicant, result } = prediction;
   const isLow = result.risk === "LOW";
+  const safePct = result.safeProbability ?? result.probability;
+  const defaultPct = result.defaultProbability ?? (100 - safePct);
 
   return (
     <div className="min-h-screen bg-background">
@@ -56,14 +59,37 @@ const Result = () => {
       <div className="container mx-auto px-4 py-10 max-w-3xl">
         {/* Risk Badge */}
         <div className={`rounded-xl p-8 mb-8 text-center ${isLow ? "bg-risk-low/10 risk-glow-low" : "bg-risk-high/10 risk-glow-high"}`}>
-          <div className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-4 text-sm font-semibold ${isLow ? "bg-risk-low text-risk-low-foreground" : "bg-risk-high text-risk-high-foreground"}`}>
+          <div className={`inline-flex items-center gap-2 rounded-full px-5 py-2 mb-4 text-sm font-bold tracking-wide ${isLow ? "bg-risk-low text-risk-low-foreground" : "bg-risk-high text-risk-high-foreground"}`}>
             {isLow ? <CheckCircle2 className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
-            {result.risk} RISK
+            {isLow ? "🟢 Approved – Safe Borrower" : "🔴 High Risk – Caution Required"}
           </div>
-          <div className="font-display text-5xl font-bold text-foreground mb-2">
-            {result.probability}%
+
+          {/* Dual Probability Display */}
+          <div className="flex items-center justify-center gap-8 mt-4 mb-2">
+            <div>
+              <div className="font-display text-4xl font-bold text-risk-low">{safePct}%</div>
+              <p className="text-muted-foreground text-xs mt-1">Safe Probability</p>
+            </div>
+            <div className="w-px h-12 bg-border" />
+            <div>
+              <div className="font-display text-4xl font-bold text-risk-high">{defaultPct}%</div>
+              <p className="text-muted-foreground text-xs mt-1">Default Risk</p>
+            </div>
           </div>
-          <p className="text-muted-foreground text-sm">Confidence Score (Safe Probability)</p>
+
+          {/* Model Note */}
+          <p className="text-muted-foreground text-[11px] mt-4 italic">
+            Prediction generated using rule-based + ML-assisted risk evaluation aligned with banking standards.
+          </p>
+        </div>
+
+        {/* Decision Recommendation */}
+        <div className={`rounded-lg p-4 mb-6 flex items-start gap-3 border ${isLow ? "border-risk-low/30 bg-risk-low/5" : "border-risk-high/30 bg-risk-high/5"}`}>
+          {isLow ? <CheckCircle2 className="h-5 w-5 text-risk-low mt-0.5 shrink-0" /> : <AlertTriangle className="h-5 w-5 text-risk-high mt-0.5 shrink-0" />}
+          <div>
+            <h4 className="font-display font-semibold text-sm text-foreground mb-0.5">Decision Suggestion</h4>
+            <p className="text-sm text-muted-foreground">{result.recommendation}</p>
+          </div>
         </div>
 
         {/* Applicant Summary */}
@@ -82,14 +108,14 @@ const Result = () => {
           </div>
         </div>
 
-        {/* Summary */}
+        {/* Assessment Summary */}
         <div className="bg-card border border-border rounded-lg p-6 mb-6 shadow-card">
           <h3 className="font-display font-semibold text-foreground mb-2">Assessment Summary</h3>
           <p className="text-sm text-muted-foreground leading-relaxed">{result.summary}</p>
         </div>
 
         {/* Risk Factors */}
-        <div className="bg-card border border-border rounded-lg p-6 shadow-card">
+        <div className="bg-card border border-border rounded-lg p-6 mb-6 shadow-card">
           <h3 className="font-display font-semibold text-foreground mb-4">Risk Factor Breakdown</h3>
           <div className="space-y-4">
             {result.factors.map((f) => {
@@ -105,6 +131,14 @@ const Result = () => {
               );
             })}
           </div>
+        </div>
+
+        {/* Disclaimer */}
+        <div className="flex items-start gap-2 rounded-lg border border-border bg-muted/30 p-4">
+          <Info className="h-4 w-4 text-muted-foreground mt-0.5 shrink-0" />
+          <p className="text-[11px] text-muted-foreground leading-relaxed">
+            <strong>Disclaimer:</strong> This prediction is generated using ML-assisted risk analysis and should be used as a decision-support tool, not a final approval system. Always conduct independent due diligence before making lending decisions.
+          </p>
         </div>
       </div>
     </div>
