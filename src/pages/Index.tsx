@@ -121,8 +121,10 @@ const Index = () => {
 
       {/* Footer */}
       <footer className="border-t border-border py-8">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          LoanGuard Risk Engine — Built for production banking environments
+        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground space-y-1">
+          <p>LoanGuard Risk Engine — Built for production banking environments</p>
+          <p>© 2026 Mohd Kaif</p>
+          <p className="text-xs">Built with AI assistance</p>
         </div>
       </footer>
     </div>
